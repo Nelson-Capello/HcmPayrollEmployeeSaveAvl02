@@ -12,6 +12,7 @@
                         "value": "Normal"
                     },
                     "hireDate": "2015-04-01",
+                    "registernumber": 45,
                     "hireType": {
                         "key": "Reemprego",
                         "value": "2 - Reemprego"

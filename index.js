@@ -16,12 +16,18 @@ exports.handler = async (event) => {
   
   if (!body.sheetContract.registernumber) {
     vAlfCodRetorno = "400";
-    vAlfMsgErro = "Matrícula do Colaborador deve ser preenchida, verifique a guia Contrato;";
+    vAlfMsgErro = vAlfMsgErro + "Matrícula do Colaborador deve ser preenchida, verifique na guia Contrato; ";
+  }
+  
+  // o campo é de preenchimento obrigatório garantido pela plataforma, por isso não precisa testar se está preenchido;
+  if (body.sheetContract.admissionOriginType.value !== 'Normal') {
+    vAlfCodRetorno = "400";
+    vAlfMsgErro = vAlfMsgErro + "Tipo de Admissão não deve ser diferente de 'Normal', verifique na guia Contrato; ";
   }
   
   // manda o retorno;
   if (vAlfCodRetorno === "200") {
-    return sendRes(vAlfCodRetorno, JSON.parse(event.body));
+    return sendRes(vAlfCodRetorno, event.body);
   } else {
     return sendRes(vAlfCodRetorno, vAlfMsgErro);
   }
