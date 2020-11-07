@@ -2,7 +2,7 @@
     "T8hGGCeJkzjAHcmPayrollEmployeeSaveAvl02": {
         "lambda": {
             "headers": {
-                "X-Senior-Token": "Bearer f8752d1a8459f51efe860b189db4cde7",
+                "X-Senior-Token": "Bearer d1db0bc83a1b78e60a12c26b34f30b5b",
                 "X-Senior-User": "admin@user.com"
             },
             "body": {
@@ -124,7 +124,7 @@
                     },
                     "person": {
                         "tableId": "14DC661049784802B0A9B51A0D0EDEBC",
-                        "name": "Pedro Alencar"
+                        "name": "Pedro AlencarX"
                     }
                 },
                 "sheetPersona": {
