@@ -7,12 +7,19 @@
  * * Avaliação do Treinamento SeniorX Novas Tecnologias, escopo 1
  **/
 
+const axios = require('axios');
+
 exports.handler = async (event) => {
   
-  //let tokenSeniorX = event.headers['X-Senior-Token'];
+  let tokenSeniorX = event.headers['X-Senior-Token'];
   let body = parseBody(event);
   let vAlfCodRetorno = "200";
   let vAlfMsgErro = "";
+  
+  const instance = axios.create({
+    baseURL: 'https://platform-homologx.senior.com.br/t/senior.com.br/bridge/1.0/rest/',
+    headers: {'Authorization': tokenSeniorX}
+  });
   
   if (!body.sheetContract.registernumber) {
     vAlfCodRetorno = "400";
@@ -23,6 +30,23 @@ exports.handler = async (event) => {
   if (body.sheetContract.admissionOriginType.value !== 'Normal') {
     vAlfCodRetorno = "400";
     vAlfMsgErro = vAlfMsgErro + "Tipo de Admissão não deve ser diferente de 'Normal', verifique na guia Contrato; ";
+  }
+  
+  //validação de alteração do nome do colaborador
+  if (body.sheetInitial.employee) {
+    let vAlfDadosColaborador = await instance.get(`/hcm/payroll/entities/employee/${body.sheetInitial.employee.tableId}`);
+    //monta o nome do colaborador a partir do retorno dos dados da base
+    let vAlfNomeColaborador = vAlfDadosColaborador.data.person.firstname + ' ';
+    //vAlfNomeColaborador = vAlfNomeColaborador + vAlfDadosColaborador.data.person.middlename !== '' ? vAlfDadosColaborador.data.person.middlename + ' ' : '';
+    if (vAlfDadosColaborador.data.person.middlename !== '') {
+      vAlfNomeColaborador = vAlfNomeColaborador + vAlfDadosColaborador.data.person.middlename + ' ';
+    }
+    vAlfNomeColaborador = vAlfNomeColaborador + vAlfDadosColaborador.data.person.lastname;
+    
+    if (vAlfNomeColaborador !== body.sheetInitial.person.name) {
+      vAlfCodRetorno = "400";
+      vAlfMsgErro = vAlfMsgErro + "Não é permitido alterar o Nome do Colaborador, verifique na guia Pessoais; ";
+    }
   }
   
   // manda o retorno;
