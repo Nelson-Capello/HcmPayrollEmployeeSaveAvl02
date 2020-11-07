@@ -119,12 +119,12 @@
                         "name": "Pedro Alencar"
                     },
                     "contractType": {
-                        "key": "Manager",
-                        "value": "2 - Diretor"
+                        "key": "Employee",
+                        "value": "1 - Empregado"
                     },
                     "person": {
                         "tableId": "14DC661049784802B0A9B51A0D0EDEBC",
-                        "name": "Pedro AlencarX"
+                        "name": "Pedro Alencar"
                     }
                 },
                 "sheetPersona": {

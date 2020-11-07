@@ -49,6 +49,20 @@ exports.handler = async (event) => {
     }
   }
   
+  //validação da escala por tipo de contrato
+  if (body.sheetInitial.contractType.value == '1 - Empregado') {
+    let vAlfEscalaColaborador = await instance.get(`/hcm/payroll/entities/workshift/${body.sheetWorkSchedule.workshift.tableId}`);
+    if (vAlfEscalaColaborador.data.code < 1 || vAlfEscalaColaborador.data.code > 10) {
+      vAlfCodRetorno = "400";
+      vAlfMsgErro = vAlfMsgErro + "Escala para colaboradores tipo /'1 - Empregado/' tem que ser de 1 a 10, verifique na guia Horário; ";
+    }
+    if (vAlfEscalaColaborador.data.workshiftType !== 'Permanent') {
+      vAlfCodRetorno = "400";
+      vAlfMsgErro = vAlfMsgErro + "Escala para colaboradores tipo /'1 - Empregado/' tem que ser /'Permanente/', verifique na guia Horário; ";
+    }
+  }
+  
+  
   // manda o retorno;
   if (vAlfCodRetorno === "200") {
     return sendRes(vAlfCodRetorno, event.body);
